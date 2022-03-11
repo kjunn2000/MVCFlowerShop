@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+@if(ViewBag.msg != "")
+{
+    <script>alert("@ViewBag.msg");</script>
+}
+
+<center>
+    <h1>Upload File Section:</h1>
+
+    <form asp-action="Index" asp-controller="FileUpload" method="post" enctype="multipart/form-data">
+       <p>Upload one or more files using this form:</p>
+       <input type="file" name="images" multiple/>
+       <br/><br/>
+       <input type="submit" value="Upload"/>
+    </form>
+    <br/><br/><hr/><br/>
+
+    <h1>Upload Image File to AWS S3</h1>
+
+    <form asp-action="Index" asp-controller="UploadToS3" method="post" enctype="multipart/form-data">
+       <p>Upload one or more files using this form:</p>
+       <input type="file" name="images" accept="image/*" multiple/>
+       <br/><br/>
+       <input type="submit" value="Upload"/>
+    </form>
+
+</center>

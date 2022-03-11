@@ -20,13 +20,22 @@ namespace MVCFlowerShop.Controllers
         }
 
         // GET: Flowers
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index(string SearchString, string FlowerType)
         {
             var flower = from m in _context.Flower
                          select m;
-            if (! string.IsNullOrEmpty(searchString))
+            IQueryable<string> dropdownlistquery = from m in _context.Flower
+                                                   orderby m.Type
+                                                   select m.Type;
+            IEnumerable<SelectListItem> items = new SelectList(await dropdownlistquery.Distinct().ToListAsync());
+            ViewBag.FlowerType = items;
+            if (! string.IsNullOrEmpty(SearchString))
             {
-                flower = flower.Where(s => s.FlowerName.Contains(searchString));
+                flower = flower.Where(s => s.FlowerName.Contains(SearchString));
+            }
+            if (!string.IsNullOrEmpty(FlowerType))
+            {
+                flower = flower.Where(s => s.Type.Equals(FlowerType));
             }
             return View(await flower.ToListAsync());
         }
@@ -154,6 +163,38 @@ namespace MVCFlowerShop.Controllers
         private bool FlowerExists(int id)
         {
             return _context.Flower.Any(e => e.ID == id);
+        }
+
+        public async Task<IActionResult> SearchPage(string msg = "")
+        {
+            ViewBag.msg = msg;
+            IQueryable<string> query = from m in _context.Flower
+                                                   orderby m.Type
+                                                   select m.Type;
+            IEnumerable<SelectListItem> items = new SelectList(await query.Distinct().ToListAsync());
+            ViewBag.FlowerType = items;
+            return View();
+        }
+
+        public async Task<IActionResult> displaySearchResult(string SearchString, string FlowerType)
+        {
+            string message = "";
+            if(string.IsNullOrEmpty(SearchString))
+            {
+                message = "Please enter a Search Keyword before proceed with the search function!";
+                return RedirectToAction("SearchPage", new { msg = message });
+            }
+
+            var flower = from m in _context.Flower
+                         select m;
+            flower = flower.Where(s => s.FlowerName.Contains(SearchString));
+            
+            if (! string.IsNullOrEmpty(FlowerType))
+            {
+                flower = flower.Where(s => s.Type.Equals(FlowerType));
+            }
+
+            return View(await flower.ToListAsync());
         }
     }
 }

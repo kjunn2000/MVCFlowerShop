@@ -1,0 +1,20 @@
+
+{
+    "region" : "us-east-1",
+    "configuration" : "Debug",
+    "framework"     : "netcoreapp3.1",
+    "self-contained" : false,
+    "application"    : "MVCFlowerShop",
+    "environment"    : "MVCFlowerShop-test",
+    "enable-xray"    : false,
+    "enhanced-health-type" : "basic",
+    "additional-options"   : "\"aws:autoscaling:launchconfiguration,SecurityGroups\"=\"sg-081d583853b0c1427,sg-0c125fc08de0071ff\";\"aws:ec2:vpc,Subnets\"=\"subnet-040fcd7f9601f71f9\"",
+    "solution-stack"       : "64bit Amazon Linux 2 v2.2.10 running .NET Core",
+    "environment-type"     : "SingleInstance",
+    "cname"                : "mvcflowershop-test",
+    "instance-type"        : "t2.micro",
+    "key-pair"             : "test",
+    "instance-profile"     : "LabInstanceProfile",
+    "service-role"         : "LabRole",
+    "proxy-server"         : "nginx"
+}

@@ -26,14 +26,16 @@ namespace MVCFlowerShop.Models
                         FlowerName = "Yellow Sunflower",
                         FlowerProducedDate = DateTime.Parse("2020-01-30"),
                         Price = 3.45M,
-                        Type = "Sunflower"
+                        Type = "Sunflower",
+                        Rating = "3.3"
                     },
                     new Flower
                     {
                         FlowerName = "White Rose",
                         FlowerProducedDate = DateTime.Parse("2020-01-26"),
                         Price = 6.45M,
-                        Type = "Rose"
+                        Type = "Rose",
+                        Rating = "3.4"
                     }
                 );
                 }

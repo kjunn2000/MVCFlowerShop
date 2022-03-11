@@ -1,0 +1,33 @@
+﻿@model List<Amazon.S3.Model.S3Object>
+@{
+    ViewData["Title"] = "ViewImages";
+}
+
+<center>
+    <h1>Photo Gallery Example: </h1>
+    <br/>
+    <hr/><br/>
+    <table border = "1">
+        <tr>
+            <th>Photo Image (w/o presigned url)</th>
+            <th>Photo Image (w presigned url)</th>
+            <th>Photo Name</th>
+            <th>Photo Size</th>
+            <th>Action</th>
+        </tr>
+        @{int i = 0;}
+        @foreach(var item in Model)
+        {
+            string link = "https://" + item.BucketName + ".s3.us-east-1.amazonaws.com/" + item.Key;
+            <tr>
+                <td><img src="@link" width="300px" height="300px"/></td>
+                <td><img src="@ViewBag.ImageLinks[i]" width="300px" height="300px"/></td>
+                <td>@item.Key</td>
+                <td>@item.Size</td>
+                <td><a asp-action="deleteimage" asp-route-ID="@item.Key">Delete Image</a> </td>
+                <td><a asp-action="downloadimage" asp-route-ID="@item.Key">Download Image</a> </td>
+            </tr>
+            i++;
+        }
+    </table>
+</center>

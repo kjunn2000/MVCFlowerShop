@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewData["Title"] = "SearchPage";
+}
+
+@if(ViewBag.msg != "")
+{
+    <script>alert("@ViewBag.msg");</script>
+}
+
+<center>
+    <h1>Search Flower Based on Flower Name / Type:</h1>
+    <br/>
+    <form asp-action="displaySearchResult" method="post">
+        <label>Flower Name: </label>
+        <input type="text" name="SearchString" placeholder="sunflower ..."/>
+        <br/>
+        <label>Flower Type: </label>
+        @Html.DropDownList("FlowerType","All")
+        <input type="submit" name="submit" value="Search"/>
+    </form>
+</center>
+
+

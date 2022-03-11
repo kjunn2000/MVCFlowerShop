@@ -1,0 +1,44 @@
+﻿@model IEnumerable<MVCFlowerShop.Models.Flower>
+
+@{
+    ViewData["Title"] = "displaySearchResult";
+}
+
+<center>
+    <h1>Flower Result As Below:</h1>
+    <br/>
+    <hr/>
+    <br/>
+    <table class="table">
+        <tr>
+            <th width="150px">Flower Id</th>
+            <th width="250px">Flower Name</th>
+            <th width="250px">Flower Type</th>
+            <th width="250px">Flower Price</th>
+            <th width="250px">Flower Rating</th>
+        </tr
+        @{
+            int i = 1; string color = "white";
+            foreach(var item in Model)
+            {
+                <tr bgcolor="@color">
+                    <td>@item.ID</td>
+                    <td>@item.FlowerName</td>
+                    <td>@item.Type</td>
+                    <td>@item.Price</td>
+                    <td>@item.Rating</td>
+                </tr>
+                @if(i == 1)
+                {
+                    color = "lightblue";
+                    i = 0;
+                }
+                else
+                {
+                    color = "white";
+                    i = 1;
+                }
+            }
+        }
+    </table>
+</center>
