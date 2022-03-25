@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Amazon.S3;
 using Amazon.S3.Model;
 using System;
+using Amazon.S3.Transfer;
 
 namespace MVCFlowerShop.Controllers
 {
@@ -105,8 +106,9 @@ namespace MVCFlowerShop.Controllers
             return RedirectToAction("Index", "UploadFile", new { msg = message });
         }
 
-        public async Task<IActionResult> ViewImages()
+        public async Task<IActionResult> ViewImages(string msg = "")
         {
+            ViewBag.msg = msg;
             List<string> credentialInfo = getAWSCredentialInfo();
             var displayResult = new List<S3Object>();
             var S3Client = new AmazonS3Client(credentialInfo[0], credentialInfo[1]
@@ -145,5 +147,50 @@ namespace MVCFlowerShop.Controllers
             return View(displayResult);
         }
 
+        public async Task<IActionResult> DeleteImage(string FileName)
+        {
+            string message = "";
+            List<string> credentialInfo = getAWSCredentialInfo();
+            var S3Client = new AmazonS3Client(credentialInfo[0], credentialInfo[1],
+                credentialInfo[2], Amazon.RegionEndpoint.USEast1);
+            try
+            {
+                if (string.IsNullOrEmpty(FileName))
+                    return BadRequest("The " + FileName + " parameter is required.");
+                var deleteObjectRequest = new DeleteObjectRequest
+                {
+                    BucketName = bucketName,
+                    Key = FileName
+                };
+                await S3Client.DeleteObjectAsync(deleteObjectRequest);
+                message = FileName + " is deleted from S3.";
+            }
+            catch (Exception ex)
+            {
+                message = FileName + " is not successfully deleted from S3 \\n Error:" + ex.Message;
+            }
+            return RedirectToAction("ViewImages", "UploadFile", new { msg = message });
+        }
+
+        public async Task<IActionResult> DownloadImage(string FileName, string Directory)
+        {
+            string message = "";
+            List<string> credentialInfo = getAWSCredentialInfo();
+            var S3Client = new Amazo    nS3Client(credentialInfo[0], credentialInfo[1],
+                credentialInfo[2], Amazon.RegionEndpoint.USEast1);
+
+            Directory = (!string.IsNullOrEmpty(Directory)) ? bucketName + "/" + Directory : bucketName;
+            string downloadPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)+"\\Downloads\\"+FileName;
+            try
+            {
+                TransferUtility transferFileToPC = new TransferUtility(S3Client);
+                await transferFileToPC.DownloadAsync(downloadPath, Directory, FileName);
+                message = FileName + " is successfully downloaded.";
+            }catch(Exception ex)
+            {
+                message = FileName + " is unsuccessfully downloaded. \\n Error:" + ex.Message;
+            }
+            return RedirectToAction("ViewImages", "UploadFile", new { msg = message });
+        }
     }
 }

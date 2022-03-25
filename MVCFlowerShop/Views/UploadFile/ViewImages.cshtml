@@ -2,6 +2,10 @@
 @{
     ViewData["Title"] = "ViewImages";
 }
+@if(ViewBag.msg != "")
+{
+    <script>alert("@ViewBag.msg")</script>
+}
 
 <center>
     <h1>Photo Gallery Example: </h1>
@@ -19,13 +23,15 @@
         @foreach(var item in Model)
         {
             string link = "https://" + item.BucketName + ".s3.us-east-1.amazonaws.com/" + item.Key;
+            string Directory = System.IO.Path.GetDirectoryName(item.Key);
+            string FileName = System.IO.Path.GetFileName(item.Key);
             <tr>
                 <td><img src="@link" width="300px" height="300px"/></td>
                 <td><img src="@ViewBag.ImageLinks[i]" width="300px" height="300px"/></td>
                 <td>@item.Key</td>
                 <td>@item.Size</td>
-                <td><a asp-action="deleteimage" asp-route-ID="@item.Key">Delete Image</a> </td>
-                <td><a asp-action="downloadimage" asp-route-ID="@item.Key">Download Image</a> </td>
+                <td><a asp-action="DeleteImage" asp-route-FileName="@item.Key">Delete Image</a> </td>
+                <td><a asp-action="DownloadImage" asp-route-FileName="@FileName" asp-route-Directory = "@Directory">Download Image</a> </td>
             </tr>
             i++;
         }
