@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "SearchBasedOnPrice";
+}
+
+@if(ViewBag.msg != "")
+{
+    <script>alert("@ViewBag.msg")</script>
+}
+
+<center>
+    <h1>Search the Order based on Price</h1>
+    <br/>
+    <form method="post" action="SearchBasedOnPrice">
+       <label>Enter Payment Amount:</label>
+       <select name="operators">
+           <option value="=" selected>Equal</option>
+           <option value="<">Less Than</option>
+           <option value=">">More Than</option>
+           <option value="<=">Less Than or Equal</option>
+           <option value=">=">More Than or Equal</option>
+ 
+       </select>
+       <label>RM</label>
+       <input type="text" name="price" placeholder="e.g. 36.99" required/>
+       <input type="submit" name="submit" value="Search"/>
+    </form>
+</center>

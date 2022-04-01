@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (ViewBag.msg != "")
+{
+    <script>alert("@ViewBag.msg")</script>
+}
+
+<center>
+    <a asp-action="CreateTable">Create Table in Dynamo DB</a>
+
+    <a asp-action="addData">Add Data to Table</a>
+    <a asp-action="SearchBasedOnPrice">Search Based on Price</a>
+
+    <br /><br />
+    <h1>Index</h1>
+</center>

@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "addData";
+}
+
+
+@if (ViewBag.msg != "")
+{
+    <script>alert("@ViewBag.msg")</script>
+}
+
+<center>
+    <div style="background-color:lightblue">
+        <h1>Add Value in the Table of Dynamo DB</h1>
+        <br/> <hr/><br/>
+        <form method="post" asp-action="addData">
+            <dt>Customer Name:</dt>
+            <dd><input type="text" value="" name="customerID" required/></dd>
+            <dt>Purchase Product:</dt>
+            <dd><input type="text" value="" name="productName" required/></dd>
+            <dt>Purchase Quantity:</dt>
+            <dd><input type="number" value="" name="quantity" required/></dd>
+            <dt>Purchase Amount:</dt>
+            <dd><input type="number" value="" name="amount" required/></dd>
+            <dt>Payment Type:</dt>
+            <dd>
+                <select name="paymentType" required>
+                    <option value="cash" selected>CASH</option>
+                    <option value="bank">BANK</option>
+                    <option value="owe">INVOICE</option>
+                </select>
+            </dd>
+            <dt>Payment Date:</dt>
+            <dd><input type="date" value="" name="paymentDate"/></dd>
+            <input type="submit" name="submit" value="Make Order"/>
+        </form>
+    </div>
+</center>
+
+

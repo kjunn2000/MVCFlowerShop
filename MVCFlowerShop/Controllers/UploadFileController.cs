@@ -176,7 +176,7 @@ namespace MVCFlowerShop.Controllers
         {
             string message = "";
             List<string> credentialInfo = getAWSCredentialInfo();
-            var S3Client = new Amazo    nS3Client(credentialInfo[0], credentialInfo[1],
+            var S3Client = new AmazonS3Client(credentialInfo[0], credentialInfo[1],
                 credentialInfo[2], Amazon.RegionEndpoint.USEast1);
 
             Directory = (!string.IsNullOrEmpty(Directory)) ? bucketName + "/" + Directory : bucketName;
