@@ -1,0 +1,52 @@
+﻿@model List<List<KeyValuePair<string, string>>>
+@{
+    ViewData["Title"] = "editData";
+}
+
+<center>
+    <h1>Sample of using Query Operator - Edit Page</h1>
+    <form asp-action="editData" method="post">
+        <div>
+            @foreach(var item in Model)
+            {
+                foreach(var keyvalue in item)
+                {
+                    <dt>@keyvalue.Key</dt>
+                    if(keyvalue.Key == "CustomerID" || keyvalue.Key == "TransactionID" || keyvalue.Key == "ProductName")
+                    {
+                        <dd><input type="text" name="@keyvalue.Key" value="@keyvalue.Value" readonly/></dd>
+                    }else if (keyvalue.Key == "Amount" || keyvalue.Key == "PaymentDate" || keyvalue.Key == "EstimatedPaymentDate")
+                    {
+                        <dd><input type="text" name="@keyvalue.Key" value="@keyvalue.Value"/></dd>
+                    }else if (keyvalue.Key == "Quantity")
+                    {
+                        <dd><input type="number" name="@keyvalue.Key" value="@keyvalue.Value" min="1" max="30"/></dd>
+                    }else if (keyvalue.Key == "PaymentType")
+                    {
+                        <dd><select name="@keyvalue.Key" required>
+                            <option value="cash" selected>CASH</option>
+                            <option value="bank">BANK</option>
+                            <option value="owe">INVOICE</option>
+                            </select></dd>
+                    }else if (keyvalue.Key == "PaymentStatus")
+                    {
+                        <dd>
+                            <select name="@keyvalue.Key" required>
+                                @if (Convert.ToBoolean(keyvalue.Value))
+                                {
+                                    <option value="true" selected>True</option>
+                                    <option value="false">False</option>
+                                }else
+                                {
+                                    <option value="true">True</option>
+                                    <option value="false" selected>False</option>
+                                }
+                            </select>
+                        </dd>
+                    }
+                }
+            }
+            <input type="submit" value="Edit" name="submit"/>
+        </div>
+    </form>
+</center>

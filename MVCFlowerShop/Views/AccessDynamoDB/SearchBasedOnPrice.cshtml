@@ -1,28 +1,63 @@
-﻿
+﻿@model List<List<KeyValuePair<string, string>>>
 @{
     ViewData["Title"] = "SearchBasedOnPrice";
 }
 
-@if(ViewBag.msg != "")
+@if (ViewBag.msg != "")
 {
-    <script>alert("@ViewBag.msg")</script>
+    <script>alert("@ViewBag.msg");</script>
 }
 
 <center>
-    <h1>Search the Order based on Price</h1>
-    <br/>
-    <form method="post" action="SearchBasedOnPrice">
-       <label>Enter Payment Amount:</label>
-       <select name="operators">
-           <option value="=" selected>Equal</option>
-           <option value="<">Less Than</option>
-           <option value=">">More Than</option>
-           <option value="<=">Less Than or Equal</option>
-           <option value=">=">More Than or Equal</option>
- 
-       </select>
-       <label>RM</label>
-       <input type="text" name="price" placeholder="e.g. 36.99" required/>
-       <input type="submit" name="submit" value="Search"/>
+    <h1>Search the Order Transactions based on Price: Example using scan method</h1>
+    <br />
+    <form method="post" asp-action="SearchBasedOnPrice">
+        <label>Enter Payment Amount: </label>
+        <select name="operators">
+            <option value="=" selected>Equal</option>
+            <option value="<">Less Than</option>
+            <option value=">">More Than</option>
+            <option value=">=">More Than or Equal</option>
+            <option value="<=">Less Than or Equal</option>
+        </select>
+        &nbsp;&nbsp;&nbsp;
+        <label>RM </label>
+        <input type="text" name="Price" placeholder="e.g. 35.99" required />
+        &nbsp;&nbsp;&nbsp;
+        <input type="submit" name="Submit" value="Search Purchase Transactions Based on Price" />
     </form>
 </center>
+
+<!--display the documents one by one using boxes-->
+@if (ViewBag.msg == "Product found!") // to make sure only show the records when the system found records
+{
+    <p>Number of Payment found: @Model.Count</p>
+
+    foreach (var item in Model) //display item values 1 by 1 from the list
+    {
+        string customerid = "", transactionid = ""; //for use in edit and delete function
+
+        <div style="text-align: left; display: inline-block; background-color: lightblue; padding: 8px 8px 8px 8px; margin-bottom:10px ">
+            @foreach (var keyvalue in item)
+            {
+                if (keyvalue.Key == "CustomerID")
+                {
+                    customerid = keyvalue.Value;
+                }
+                else if (keyvalue.Key == "TransactionID")
+                {
+                    transactionid = keyvalue.Value;
+                }
+                <dt>@keyvalue.Key</dt>
+                <dd>@keyvalue.Value</dd>
+            }
+            <br />
+            <div style="text-align:center">
+                <!--button area-->
+                <a asp-action="deleteData" asp-route-cid="@customerid" asp-route-tid="@transactionid"><button>Delete</button></a>
+                &nbsp;&nbsp;&nbsp;
+                <a asp-action="editData" asp-route-cid="@customerid" asp-route-tid="@transactionid"><button>Edit</button></a>
+            </div>
+        </div>
+    }
+}
